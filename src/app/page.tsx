@@ -19,17 +19,7 @@ export default function Home() {
   const [inputTerm, setInputTerm] = useState("");
   const [quoteLoading, setLoading] = useState(false);
   const [quoteLoadingError, setLoadingError] = useState(false);
-  const [leftQuote, setLeftQuote] = useState("");
-  const [rightQuote, setRightQuote] = useState("");
-
-  interface Setters {
-    [key: string]: React.Dispatch<React.SetStateAction<string>>;
-  }
-
-  const setters: Setters = {
-    setLeftQuote: setLeftQuote,
-    setRightQuote: setRightQuote,
-  };
+  const [quote, setQuote] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -43,16 +33,7 @@ export default function Home() {
         "/api/quote?prompt=" + encodeURIComponent(inputTerm)
       );
       const body = await response.json();
-      if (leftQuote.length === 0) {
-        setLeftQuote(body.quote);
-      } else if (rightQuote.length === 0) {
-        setRightQuote(body.quote);
-      } else {
-        const random = Math.floor(Math.random() * 2);
-        const string = `set{${Right_Left[random]}Quote`;
-        const setterFunction = setters[string];
-        setterFunction(body.quote);
-      }
+      setQuote(body.quote);
     } catch (error) {
       console.error(error);
       setLoadingError(true);
@@ -69,15 +50,11 @@ export default function Home() {
         the term
       </div>
       <div className="flex justify-around px-6">
-        <div className="flex justify-center align-middle flex-col  font-extrabold italic ">
-          {leftQuote && leftQuote}
-        </div>
-
         <div>
           <div className="flex justify-center mt-5">
             <Image
               src={image}
-              className="w-80 content-center relative object-cover rounded-lg shadow-md"
+              className="w-80 content-center relative object-cover rounded-lg shadow-md h-80"
               alt="horse-image"
               priority
             />
@@ -152,11 +129,8 @@ export default function Home() {
               </div>
             </form>
             {quoteLoadingError && "Something went wrong"}
+            {quote && <p className="font-semibold py-5">{quote}</p>}
           </div>
-        </div>
-
-        <div className="flex justify-center align-middle flex-col font-extrabold italic ">
-          {rightQuote && rightQuote}
         </div>
       </div>
     </div>

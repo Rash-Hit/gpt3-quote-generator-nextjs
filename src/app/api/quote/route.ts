@@ -27,8 +27,8 @@ export async function GET(req: NextRequest) {
   }
 
   const completion = await openai.completions.create({
-    model: "davinci-002",
-    prompt: `Give a famous bollywood dialogue based on the following topic.\n
+    model: "gpt-3.5-turbo-instruct",
+    prompt: `Generate a famous Bollywood dialogue that includes the topic "${prompt}". If you can't find a dialogue that includes this topic, respond with "Not able to find the dialogue." Do not include any extra lines or instructions in your response.\n.\n
        Topic: ${prompt}\n
        Dialogue:`,
     max_tokens: 500,
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
 
   const quote = completion.choices[0].text;
 
-  NextResponse.json(
+  return NextResponse.json(
     { quote },
     {
       status: 200,
