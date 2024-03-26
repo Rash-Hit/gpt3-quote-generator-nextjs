@@ -43,7 +43,7 @@ export default function Home() {
   }
   return (
     <div className="flex flex-col justify-center text-center   bg-pink-100 h-screen">
-      <div className="font-bold text-3xl">Bollywood Dialogue Generator</div>
+      <div className="font-bold text-3xl">Bollywood Dialogue Finder</div>
       <div className="font-semibold text-2xl">powered by gpt-3</div>
       <div className="font-extralight text-slate-700">
         Enter the keyword and ai will find a famous bollywood dialogue around
